@@ -11,7 +11,7 @@ class ProjectListSerializer(serializers.ModelSerializer):
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):
-
+    
     issues = serializers.SerializerMethodField()
 
     class Meta:

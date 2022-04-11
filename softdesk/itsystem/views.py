@@ -50,9 +50,10 @@ class CommentViewset(ReadOnlyModelViewSet):
     serializer_class = CommentSerializer
 
     def get_queryset(self):
-        issues = Issue.objects.filter(project_id=self.kwargs['project_pk'])
-        issue = issues.get(issue_id=self.kwargs['issue_pk'])
-        queryset = Comment.objects.filter(issue_id=self.kwargs['issue_pk'])
+        queryset = Comment.objects.filter(
+            issue_id__project_id=self.kwargs['project_pk'],
+            issue_id=self.kwargs['issue_pk'],
+            )
         return queryset
 
 
