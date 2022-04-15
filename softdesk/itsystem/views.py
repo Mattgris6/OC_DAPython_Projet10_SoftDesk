@@ -1,10 +1,11 @@
+from requests import request
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from itsystem.models import Project, Comment, Issue
+from itsystem.models import Project, Comment, Issue, Contributor
 from itsystem.serializers import ProjectDetailSerializer, ProjectListSerializer,\
-    IssueDetailSerializer, IssueListSerializer, CommentSerializer
+    IssueDetailSerializer, IssueListSerializer, CommentSerializer, ContributorSerializer
 
 
 
@@ -18,15 +19,7 @@ class MultipleSerializerMixin:
         return super().get_serializer_class()
 
 
-class AdminProjetViewset(MultipleSerializerMixin, ModelViewSet):
-
-    serializer_class = ProjectListSerializer
-    detail_serializer_class = ProjectDetailSerializer
-    queryset = Project.objects.all()
-    permission_classes = []
-
-
-class ProjectViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
+class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
 
     serializer_class = ProjectListSerializer
     detail_serializer_class = ProjectDetailSerializer
@@ -34,8 +27,15 @@ class ProjectViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
     def get_queryset(self):
         return Project.objects.filter()
 
+    def create(self, request):
+        serializer = ProjectDetailSerializer(data=request.data)
+        serializer.is_valid()
+        project = serializer.save(author_user_id=request.user)
+        Contributor.objects.create(author_user_id=request.user, project_id=project, role='AUTHOR')
+        return Response(serializer.data)
 
-class IssueViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
+
+class IssueViewset(MultipleSerializerMixin, ModelViewSet):
 
     serializer_class = IssueListSerializer
     detail_serializer_class = IssueDetailSerializer
@@ -44,8 +44,17 @@ class IssueViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
         queryset = Issue.objects.filter(project_id=self.kwargs['project_pk'])
         return queryset
 
+    def create(self, request):
+        serializer = IssueDetailSerializer(data=request.data)
+        serializer.is_valid()
+        serializer.save(
+            project_id=Project.objects.get(project_id=self.kwargs['project_pk']),
+            author_user_id=request.data['user'],
+        )
+        return Response(serializer.data)
 
-class CommentViewset(ReadOnlyModelViewSet):
+
+class CommentViewset(ModelViewSet):
 
     serializer_class = CommentSerializer
 
@@ -56,8 +65,30 @@ class CommentViewset(ReadOnlyModelViewSet):
             )
         return queryset
 
+    def create(self, request):
+        serializer = CommentSerializer(data=request.data)
+        serializer.is_valid()
+        serializer.save(
+            issue_id=Issue.objects.get(pk=self.kwargs['issue_pk']),
+            author_user_id=request.data['user'],
+        )
+        return Response(serializer.data)
 
-class AdminCommentViewset(ModelViewSet):
 
-    serializer_class = CommentSerializer
-    queryset = Comment.objects.all()
+class ContributorViewset(ModelViewSet):
+
+    serializer_class = ContributorSerializer
+
+    def get_queryset(self):
+        queryset = Contributor.objects.filter(
+            project_id=self.kwargs['project_pk'],
+            )
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        serializer = ContributorSerializer(data=request.data)
+        serializer.is_valid()
+        serializer.save(
+            project_id=Project.objects.get(pk=self.kwargs['project_pk']),
+            )
+        return Response(serializer.data)

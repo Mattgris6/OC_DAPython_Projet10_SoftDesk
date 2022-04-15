@@ -50,3 +50,9 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'description', 'author_user_id', 'issue_id', 'created_time']
+
+class ContributorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Contributor
+        fields = ['id', 'author_user_id']

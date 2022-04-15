@@ -53,7 +53,7 @@ class Comment(models.Model):
 class Contributor(models.Model):
 
     PERMISSIONS = (('OK', 'AUTORISE'), ('NOK', 'PAS AUTORISE'))
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author_user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     permission = models.CharField(max_length=255, choices=PERMISSIONS)
     role = models.CharField(max_length=255, blank=True)
