@@ -1,7 +1,5 @@
-from requests import request
-from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 
@@ -42,7 +40,7 @@ class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
     permission_classes = [IsAuthenticated, ProjectPermissions]
 
     def get_queryset(self):
-        return Project.objects.filter()
+        return Project.objects.filter(contributor_project__author_user_id=self.request.user)
 
     def create(self, request):
         serializer = ProjectDetailSerializer(data=request.data)

@@ -3,7 +3,7 @@ from itsystem.models import Comment, Contributor, Project, Issue
 
 class ProjectAdmin(admin.ModelAdmin):
 
-    list_display = ('title', 'author_user_id')
+    list_display = ('title', 'author_user_id', 'description')
 
 
 class IssueAdmin(admin.ModelAdmin):
@@ -18,7 +18,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 class ContributorAdmin(admin.ModelAdmin):
 
-    list_diplay = ('user_id', 'project_id', 'permission', 'role')
+    list_diplay = ('author_user_id', 'project_id')
 
 
 admin.site.register(Project, ProjectAdmin)
