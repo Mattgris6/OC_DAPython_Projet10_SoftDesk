@@ -28,7 +28,7 @@ class ProjectListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id', 'title', 'description', 'type', 'author_user_id']
+        fields = ['id', 'title', 'author_user_id']
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):
@@ -49,7 +49,7 @@ class IssueListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
-        fields = ['id', 'title', 'desc', 'tag', 'priority', 'status', 'author_user_id', 'assignee_user_id', 'created_time']
+        fields = ['id', 'title', 'tag']
 
 
 class IssueDetailSerializer(serializers.ModelSerializer):
@@ -70,7 +70,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'description', 'author_user_id', 'issue_id', 'created_time']
+        fields = ['id', 'description', 'author_user_id', 'created_time']
+
 
 class ContributorSerializer(serializers.ModelSerializer):
 

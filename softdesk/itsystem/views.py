@@ -42,11 +42,11 @@ class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
     def get_queryset(self):
         return Project.objects.filter(contributor_project__author_user_id=self.request.user)
 
-    def create(self, request):
+    def create(self, request, *args, **kwargs):
         serializer = ProjectDetailSerializer(data=request.data)
-        serializer.is_valid()
-        project = serializer.save(author_user_id=request.user)
-        Contributor.objects.create(author_user_id=request.user, project_id=project, role='AUTHOR')
+        if serializer.is_valid(raise_exception=True):
+            project = serializer.save(author_user_id=request.user)
+            Contributor.objects.create(author_user_id=request.user, project_id=project, role='AUTHOR')
         return Response(serializer.data)
 
 
@@ -60,13 +60,13 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
         queryset = Issue.objects.filter(project_id=self.kwargs['project_pk'])
         return queryset
 
-    def create(self, request):
+    def create(self, request, *args, **kwargs):
         serializer = IssueDetailSerializer(data=request.data)
-        serializer.is_valid()
-        serializer.save(
-            project_id=Project.objects.get(project_id=self.kwargs['project_pk']),
-            author_user_id=request.data['user'],
-        )
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(
+                project_id=Project.objects.get(issues_from=self.kwargs['project_pk']),
+                author_user_id=request.user,
+            )
         return Response(serializer.data)
 
 
@@ -82,13 +82,13 @@ class CommentViewset(ModelViewSet):
             )
         return queryset
 
-    def create(self, request):
+    def create(self, request, *args, **kwargs):
         serializer = CommentSerializer(data=request.data)
-        serializer.is_valid()
-        serializer.save(
-            issue_id=Issue.objects.get(pk=self.kwargs['issue_pk']),
-            author_user_id=request.data['user'],
-        )
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(
+                issue_id=Issue.objects.get(pk=self.kwargs['issue_pk']),
+                author_user_id=request.user,
+            )
         return Response(serializer.data)
 
 
@@ -105,8 +105,8 @@ class ContributorViewset(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = ContributorSerializer(data=request.data)
-        serializer.is_valid()
-        serializer.save(
-            project_id=Project.objects.get(pk=self.kwargs['project_pk']),
-            )
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(
+                project_id=Project.objects.get(pk=self.kwargs['project_pk']),
+                )
         return Response(serializer.data)
