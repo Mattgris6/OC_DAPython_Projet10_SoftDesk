@@ -28,7 +28,7 @@ class MultipleSerializerMixin:
     detail_serializer_class = None
 
     def get_serializer_class(self):
-        if self.action == 'retrieve' and self.detail_serializer_class is not None:
+        if self.action in ['retrieve', 'create', 'update', 'delete'] and self.detail_serializer_class is not None:
             return self.detail_serializer_class
         return super().get_serializer_class()
 
@@ -64,7 +64,7 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
         serializer = IssueDetailSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(
-                project_id=Project.objects.get(issues_from=self.kwargs['project_pk']),
+                project_id=Project.objects.get(issues=self.kwargs['project_pk']),
                 author_user_id=request.user,
             )
         return Response(serializer.data)

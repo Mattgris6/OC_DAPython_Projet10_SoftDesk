@@ -29,7 +29,7 @@ class Issue(models.Model):
     desc = models.CharField(max_length=255)
     tag = models.CharField(max_length=255, choices=TAGS)
     priority = models.CharField(max_length=255, choices=PRIORITIES)
-    project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='issues_from')
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='issues')
     status = models.CharField(max_length=255, choices=STATUSES)
     author_user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_by')
     assignee_user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='working_on')

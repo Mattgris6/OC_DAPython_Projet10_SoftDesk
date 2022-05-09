@@ -37,7 +37,7 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id', 'title', 'description', 'type', 'author_user_id', 'issues']
+        fields = ['id', 'title', 'description', 'type', 'issues']
 
     def get_issues(self, instance):
         queryset = instance.issues.filter()
@@ -58,7 +58,18 @@ class IssueDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
-        fields = ['id', 'title', 'desc', 'tag', 'priority', 'status', 'author_user_id', 'assignee_user_id', 'created_time', 'comments']
+        fields = [
+            'id',
+            'title',
+            'desc',
+            'tag',
+            'priority',
+            'status',
+            'author_user_id',
+            'assignee_user_id',
+            'created_time',
+            'comments',
+        ]
 
     def get_comments(self, instance):
         queryset = instance.comments.filter()
