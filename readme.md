@@ -21,14 +21,14 @@ _**Les données sont sauvées dans la base de données db.sqlite3**_
 * Créer un compte ou se connecter pour pouvoir accéder au site.
 * Pour accéder à l'administratin de django `http://127.0.0.1:8000/admin`
 
-# Utilisateurs demo
+### Utilisateurs demo
 * Voici la liste de tous les utilisateurs de démo:
-** admin
-** dev1
-** dev2
-** dev3
-** dev4
-** dev5
+* admin
+* dev1
+* dev2
+* dev3
+* * dev4
+* * dev5
 * Tous les utilisateurs ont le même mot de passe: password-oc
 * Seul l'utilisateur admin a accès à l'administration django
 
