@@ -7,7 +7,7 @@ from rest_framework import status
 from itsystem.models import Project, Comment, Issue, Contributor
 from itsystem.serializers import ProjectDetailSerializer, ProjectListSerializer, ProjectCreateSerializer,\
     IssueDetailSerializer, IssueListSerializer, IssueCreateSerializer, CommentSerializer,\
-        CommentCreateSerializer, ContributorSerializer, UserSerializer, RegisterSerializer
+        CommentCreateSerializer, ContributorSerializer, RegisterSerializer
 from itsystem.permissions import ProjectPermissions, ContributorPermissions, IssueCommentPermissions
 
 
@@ -16,12 +16,12 @@ class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response({
-        "user": UserSerializer(user, context=self.get_serializer_context()).data,
-        })
+        print(request.data)
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.save()
+            print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class MultipleSerializerMixin:
