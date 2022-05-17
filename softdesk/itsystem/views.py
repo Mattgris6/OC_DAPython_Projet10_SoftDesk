@@ -30,7 +30,6 @@ class MultipleSerializerMixin:
     create_serializer_class = None
 
     def get_serializer_class(self):
-        print(self.action)
         if self.action in ['create', 'update'] and self.create_serializer_class is not None:
             return self.create_serializer_class
         elif self.action in ['retrieve', 'create', 'update', 'delete'] and self.detail_serializer_class is not None:
