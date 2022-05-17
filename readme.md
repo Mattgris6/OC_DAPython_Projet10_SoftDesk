@@ -35,3 +35,6 @@ _**Les données sont sauvegardées dans la base de données db.sqlite3**_
 La documentation de l'API se trouve sur le lien suivant:
 https://documenter.getpostman.com/view/20879820/UyxeoTUF
 Vous y trouverez tous les endpoints possible.
+
+## Controle flake8
+Pour contrôler le code, vous pouvez lancer le script ctrl_flake8.py. Les résultats du contrôle se trouvent dans le dossier flake8_rapport.
