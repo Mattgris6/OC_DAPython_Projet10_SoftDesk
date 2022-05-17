@@ -23,7 +23,7 @@ _**Les données sont sauvées dans la base de données db.sqlite3**_
 
 ### Utilisateurs demo
 * Voici la liste de tous les utilisateurs de démo:
-* admin
+    * admin
 * dev1
 * dev2
 * dev3
