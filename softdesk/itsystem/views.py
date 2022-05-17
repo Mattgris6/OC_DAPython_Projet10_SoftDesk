@@ -1,14 +1,17 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.response import Response
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
-from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
-from itsystem.models import Project, Comment, Issue, Contributor
-from itsystem.serializers import ProjectDetailSerializer, ProjectListSerializer, ProjectCreateSerializer,\
-    IssueDetailSerializer, IssueListSerializer, IssueCreateSerializer, CommentSerializer,\
-        CommentCreateSerializer, ContributorSerializer, RegisterSerializer
-from itsystem.permissions import ProjectPermissions, ContributorPermissions, IssueCommentPermissions
+from itsystem.models import Comment, Contributor, Issue, Project
+from itsystem.permissions import (ContributorPermissions,
+                                  IssueCommentPermissions, ProjectPermissions)
+from itsystem.serializers import (CommentCreateSerializer, CommentSerializer,
+                                  ContributorSerializer, IssueCreateSerializer,
+                                  IssueDetailSerializer, IssueListSerializer,
+                                  ProjectCreateSerializer,
+                                  ProjectDetailSerializer,
+                                  ProjectListSerializer, RegisterSerializer)
 
 
 # Register API

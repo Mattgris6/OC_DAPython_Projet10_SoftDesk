@@ -1,8 +1,7 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from itsystem.models import Project, Issue, Comment, Contributor
-
-from django.contrib.auth.models import User
+from itsystem.models import Comment, Contributor, Issue, Project
 
 
 # Register Serializer

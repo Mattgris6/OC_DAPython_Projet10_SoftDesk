@@ -1,11 +1,10 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
+from itsystem.views import (CommentViewset, ContributorViewset, IssueViewset,
+                            ProjectViewset, RegisterAPI)
 from rest_framework_nested import routers
-
-from itsystem.views import ProjectViewset, IssueViewset, CommentViewset, ContributorViewset, RegisterAPI
-
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 
 router = routers.SimpleRouter()
 router.register('projects', ProjectViewset, basename='projects')
