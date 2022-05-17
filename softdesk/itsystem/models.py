@@ -59,7 +59,11 @@ class Contributor(models.Model):
         return f'{self.author_user_id} {self.project_id}'
 
     PERMISSIONS = (('OK', 'AUTORISE'), ('NOK', 'PAS AUTORISE'))
-    author_user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contributor_user')
+    author_user_id = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='contributor_user',
+        )
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='contributor_project')
     permission = models.CharField(max_length=255, choices=PERMISSIONS)
     role = models.CharField(max_length=255, blank=True)

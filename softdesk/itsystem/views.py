@@ -19,11 +19,9 @@ class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
-        print(request.data)
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            user = serializer.save()
-            print(serializer.data)
+            serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -84,7 +82,7 @@ class CommentViewset(MultipleSerializerMixin, ModelViewSet):
     serializer_class = CommentSerializer
     create_serializer_class = CommentCreateSerializer
     permission_classes = [IsAuthenticated, IssueCommentPermissions]
-    
+
     def get_queryset(self):
         queryset = Comment.objects.filter(
             issue_id__project_id=self.kwargs['project_pk'],
