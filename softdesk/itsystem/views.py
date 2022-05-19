@@ -71,7 +71,7 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
         serializer = IssueCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(
-                project_id=Project.objects.get(issues=self.kwargs['project_pk']),
+                project_id=Project.objects.get(pk=self.kwargs['project_pk']),
                 author_user_id=request.user,
             )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
